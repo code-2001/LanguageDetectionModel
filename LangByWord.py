@@ -108,13 +108,13 @@ class LangByWord:
             for word in self.lang_word_count[lang]:
                 self.lang_word_prob[lang][word] = self.lang_word_count[lang][word] / sum_counts
 
+        # Mark the object as having completed training
+        self.training_complete = True
+
         # Compute the out of vocabulary probability by finding the minimum word probability in all languages
         # and reducing it by a factor. This is used during testing to assign a probability to a word that is not
         # found in the vocabulary (and hence cannot be estimated).
         self.out_of_vocab_prob = self.find_minimum_word_prob()*0.1
-
-        # Mark the object as having completed training
-        self.training_complete = True
 
     def sentence_log_prob(self, sentence: str) -> (str, float):
         """ Find the language which maximizes the sentence probability.
@@ -178,9 +178,11 @@ class LangByWord:
         if not self.training_complete:
             print('***error***, training must be done before the function can be called.')
             return
+
         if not os.path.isfile(test_file):
             print('***error***, the test file does not exist:', test_file)
             return
+
         # Open the test file and process each line (sentence) of the file
         fh = open(test_file, 'r')
         error_count = 0  # total errors
@@ -203,12 +205,20 @@ class LangByWord:
         out_of_vocab_prob from the training data.
         :return: the minimum probability of all words.
         """
+        if not self.training_complete:
+            print('Training is not complete. find_minimum_word_prob_stopping.')
+            return self.out_of_vocab_prob
+
         min_probs = [min(self.lang_word_prob[lang].values()) for lang in self.lang_word_prob.keys()]
         return min(min_probs)
 
     def print_most_prob_words(self):
         """ Print the most probable word of each language. This is useful for testing the 'train' function.
         """
+        if not self.training_complete:
+            print('Training is not complete. print_most_prob_words stopping.')
+            return
+
         print('Most probable word of each language:')
         for lang in self.lang_word_count.keys():
             max_prob = 0.0
@@ -237,13 +247,12 @@ class LangByWord:
     def self_test():
         """ Test case for this module
         """
+        print('Begin self_test.')
         lo = LangByWord()
-        lo.train('/home/frank/data/LanguageDetectionModel/exp_data_test', 0)
+        lo.train('/Users/frank/data/LanguageDetectionModel/exp_data', 10000)
         lo.print_most_prob_words()
         object_file = 'LbyW_obj.pck'
         lo.save_object_to_file(object_file)
         lo2 = LangByWord.load_object_from_file(object_file)
         print('Minimum word probability:', lo2.find_minimum_word_prob())
-        lo2.test_on_test('/home/frank/data/LanguageDetectionModel/europarl.test')
-
-LangByWord.self_test()
+        lo2.test_on_test('/Users/frank/data/LanguageDetectionModel/europarl.test')

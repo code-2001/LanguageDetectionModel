@@ -78,6 +78,3 @@ class BuildTrainingDataFiles:
         base_output_dir = '/home/frank/data/LanguageDetectionModel/exp_data_test'
         build_obj = BuildTrainingDataFiles()
         build_obj.start_building(base_input_dir, base_output_dir)
-
-
-BuildTrainingDataFiles.self_test()
