@@ -4,11 +4,16 @@ import os
 class BuildTrainingDataFiles:
     """ A class for pre-processing the language identification task.
     The function start_building should be run on the initial data-set to:
-    1. remove unwanted lines.
-    2. create a file for each language to allow for more efficient access during training.
-    Note: The base_input_dir should be in the form download from http://www.statmt.org/europarl/.
-    The 'txt' directory should contains 21 subdirectories ('bd','cs','da','de',...)
-    Each directory contains a set of text files for that language.
+    1. Remove unwanted lines.
+    2. Create a file for each language to allow for more efficient access during training.
+    Note: The base_input_dir should have the structure the data from http://www.statmt.org/europarl/.
+    It should contain a 'txt' directory containing 21 subdirectories ('bd','cs','da','de',...)
+    Each of these directories contains a set of text files for that language.
+
+    After running start_building the processed directory will contain a single file for each language. 
+    The name of the file is:
+        'lang-xx.txt' 
+        where xx is one of the 21 subdirectory names from the input directory ('bd','cs','da','de',...)
     """
 
     @staticmethod
