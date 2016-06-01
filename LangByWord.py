@@ -5,11 +5,11 @@ import pickle
 
 class LangByWord:
     """ A class for training and testing a language identification model.
-    The class can train a model from data in a training directory, build a model and then it can be tested using the
+    The class can train a model from data in a training directory, build a model and then tested using the
     standard test file format. The format of the training directory is:
-    1. one file per language
-    2. each file name is of the form lang-xx.txt where xx is on of 21 language codes ('bg','cs','da',... )
-    3. all files in one directory
+    1. One file per language
+    2. Each file name is of the form lang-xx.txt where xx is on of 21 language codes ('bg','cs','da',... )
+    3. All files in one directory
 
     The sequence of use is:
     1. construct the object: my_obj = LangByWord()
