@@ -9,7 +9,7 @@ Language detection on a sentence from and unknown language is done by finding th
 
 The language dependent word probabilities are computed by the training algorithm. It first counts the number of occurences of each word in the language. After all the counts are complete the counts are divided by the total number of word occurances in each language to get probabilities.
 
-![alt text](mt1.eps)
+![alt text](mt1.gif)
 #### *Results*
 Test results: two errors in 21,000 test sentences for an error rate less than 0.01%
 
