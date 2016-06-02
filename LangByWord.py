@@ -50,7 +50,7 @@ class LangByWord:
         new_words = [word.strip('.,()[]-!:?;\\"') for word in words]  # remove punctuation
         return new_words
 
-    def train(self, training_data_dir: str, max_words_per_lang=0):
+    def train(self, training_data_dir: str, max_words_per_lang=0, report_freq=0):
         """ Train the language identification model. The language identification model is a dictionary of probabilities
         for each word. There is one dictionary per language. The training data directory contains a file for each
         language. This corpus is used to first count occurrences of words in the language and then compute probabilities
@@ -59,6 +59,10 @@ class LangByWord:
         :param max_words_per_lang: The maximum number of words from a language to use for training. A value of 0 will
             cause all of the data to be used. This can be used to limit the training data for speeding up development
             testing time.
+        :param training_data_dir: the name of the training data directory
+        :param max_words_per_lang: used to limit the amount of training data used, 0 means no limit
+        :param report_freq: used to control the reporting output during training,
+            0 means no reporting.
         :return: returns nothing.
         """
         # Check for the existence of the training directory
@@ -93,8 +97,10 @@ class LangByWord:
                 if max_words_per_lang > 0:
                     if len(self.lang_word_count[lang_name].keys()) > max_words_per_lang:
                         break
-                if self.lang_sentence_count[lang_name] % 10000 == 0:
-                    print(lang_name, self.lang_total_word_count[lang_name], self.lang_sentence_count[lang_name])
+                if report_freq > 0 and self.lang_sentence_count[lang_name] % report_freq == 0:
+                    print('language:', lang_name, 
+                        'unique words found:', self.lang_total_word_count[lang_name], 
+                        'sentences processed:', self.lang_sentence_count[lang_name])
             print('final stats:', lang_name, 'unique words:', len(self.lang_word_count[lang_name].keys()),
                   'sentences:', self.lang_sentence_count[lang_name])
 
@@ -169,11 +175,13 @@ class LangByWord:
         print('sentence count=', sentence_count, 'error_count=', error_count, 'error rate=',
               100*error_count/sentence_count)
 
-    def test_on_test(self, test_file: str):
+    def test_on_test(self, test_file: str, report_freq=0):
         """ After training is complete this function can be called to compute the error rate of the test data.
         The test_file must be in the format of a single sentence per line ending in newline (\n). The line's language
         is given by the first two characters of the line. A tab (\t) is used to separate the language id from the
         languages text.
+        :parm test_file: the name of the test file 
+        :parm report_freq: the number of sentences per status output, 0 means no status output
         """
         if not self.training_complete:
             print('***error***, training must be done before the function can be called.')
@@ -194,11 +202,12 @@ class LangByWord:
                 error_count += 1
                 print(lang_id + '->' + prob_lang + '  \"' + lang_text.rstrip('\n') + '\"')
             sentence_count += 1
-            if sentence_count % 1000 == 0:
-                print(error_count, sentence_count, 100*error_count/sentence_count)
+            if report_freq > 0 and sentence_count % report_freq == 0:
+                print(error_count, sentence_count, 
+                    '{0:.4f}'.format(100*error_count/sentence_count))
         fh.close()
         print('Error count:', error_count, 'sentence count:', sentence_count,
-              'percent error rate: ', 100*error_count/sentence_count)
+              'percent error rate: ', '{0:.4f}'.format(100*error_count/sentence_count))
 
     def find_minimum_word_prob(self):
         """ Find the minimum word probability over all vocabularies. This function can be used to compute the
@@ -227,7 +236,7 @@ class LangByWord:
                 if self.lang_word_prob[lang][word] > max_prob:
                     max_prob = self.lang_word_prob[lang][word]
                     max_prob_word = word
-            print('language:', lang, 'word:', max_prob_word, 'prob:', max_prob)
+            print('language:', lang, 'word:', max_prob_word, 'prob:', '{0:.4f}'.format(max_prob))
 
     def save_object_to_file(self, file_name: str):
         """ Save this object to a file
