@@ -12,7 +12,7 @@ The language dependent word probabilities are computed by the training algorithm
 In order to prevent underflow log probabilities are summed rather that multiplying probabilities.
 
 
-![alt text](mt1.gif)
+![alt text](mt1.jpg)
 #### *Results*
 Test results: two errors in 21,000 test sentences for an error rate less than 0.01%
 
