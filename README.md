@@ -5,11 +5,12 @@
 See the iPython notebook *LanguageDetectionModel.ipynb* for an example of use.
 
 #### *Algorithm*
-Language detection on a sentence from and unknown language is done by finding the language that maximizes the joint probability of the language and the sentence. The joint probability is computed as the conditional probabilty of the sentence given the language multiplied by the probabilty of the language. The probabilty of each language is assumed to be the same so this term is dropped in the maximization. The probabilty of a sentence given a language is simplified by assuming that the words of the sentence are independent. It then becomes the product of each word's probabilty given the language.
+Language detection on a sentence from and unknown language is done by finding the language that maximizes the joint probability of the language and the sentence. The joint probability is computed as the conditional probability of the sentence given the language multiplied by the probability of the language. The probability of each language is assumed to be the same so this term is dropped in the maximization. The probability of a sentence given a language is simplified by assuming that the words of the sentence are independent. It then becomes the product of each word's probability given the language.
 
-The language dependent word probabilities are computed by the training algorithm. It first counts the number of occurences of each word in the language. After all the counts are complete the counts are divided by the total number of word occurances in each language to get probabilities.
+The language dependent word probabilities are computed by the training algorithm. It first counts the number of occurrences of each word in the language. After all the counts are complete the counts are divided by the total number of word occurrences in each language to get probabilities.
 
-In order to prevent underflow log probabilities are summed rather that multipling probabilities.
+In order to prevent underflow log probabilities are summed rather that multiplying probabilities.
+
 
 ![alt text](mt1.gif)
 #### *Results*
