@@ -93,13 +93,13 @@ class LangByWord:
                         self.lang_word_count[lang_name][word] += 1  # increment the number occurrences in this language
                     else:
                         self.lang_word_count[lang_name][word] = 1  # initial occurrence of this word in the language
-                # Check for early termination on this language
+                # Check for early training termination on this language
                 if max_words_per_lang > 0:
                     if len(self.lang_word_count[lang_name].keys()) > max_words_per_lang:
                         break
                 if report_freq > 0 and self.lang_sentence_count[lang_name] % report_freq == 0:
                     print('language:', lang_name, 
-                        'unique words found:', self.lang_total_word_count[lang_name], 
+                        'words processed:', self.lang_total_word_count[lang_name], 
                         'sentences processed:', self.lang_sentence_count[lang_name])
             print('final stats:', lang_name, 'unique words:', len(self.lang_word_count[lang_name].keys()),
                   'sentences:', self.lang_sentence_count[lang_name])
@@ -203,8 +203,8 @@ class LangByWord:
                 print(lang_id + '->' + prob_lang + '  \"' + lang_text.rstrip('\n') + '\"')
             sentence_count += 1
             if report_freq > 0 and sentence_count % report_freq == 0:
-                print(error_count, sentence_count, 
-                    '{0:.4f}'.format(100*error_count/sentence_count))
+                print(error_count, 'errors in', sentence_count, 'sentences.',
+                    'error percent:', '{0:.4f}'.format(100*error_count/sentence_count))
         fh.close()
         print('Error count:', error_count, 'sentence count:', sentence_count,
               'percent error rate: ', '{0:.4f}'.format(100*error_count/sentence_count))
