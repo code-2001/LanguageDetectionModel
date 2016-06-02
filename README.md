@@ -13,11 +13,11 @@ Log probabilities are summed rather than probabilities multiplied to prevent und
 
 The solution to the maximization is shown in the equations below.
 
-![alt text](mt1.jpg)
+![alt text](equations/mt1.jpg)
 
 Word probabilities are computed by a ratio of the number of occurances of a word in the language and the total number of words in the language.
 
-![alt text](word_probs.jpg)
+![alt text](equations/word_probs.jpg)
 
 #### *Results*
 Test results: two errors in 21,000 test sentences for an error rate less than 0.01%
