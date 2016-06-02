@@ -18,7 +18,7 @@ class BuildTrainingDataFiles:
 
     @staticmethod
     def filter_data(txt):
-        """ Remove unwanted lines from txt
+        """ Remove unwanted lines from txt.
         :param txt: input text to be processed
         :return: new text with unwanted lines removed
         """
@@ -61,21 +61,19 @@ class BuildTrainingDataFiles:
             # Process each file within the sub-directory
             for file_name in os.listdir(sub_dir_full_name):
                 full_file_name = os.path.join(sub_dir_full_name, file_name)
-                try:
-                    fd = open(full_file_name, 'r')
-                    txt = fd.read()
-                    fd.close()
-                except UnicodeDecodeError:
-                    print('Error on Unicode Decode. File will be ignored:', full_file_name)
-                else:
-                    filt_txt = BuildTrainingDataFiles.filter_data(txt)
-                    language_txt += filt_txt
+                with open(full_file_name, 'r') as fd:
+                    try:
+                        txt = fd.read()
+                    except UnicodeDecodeError:
+                        print('Error on Unicode Decode. File will be ignored:', full_file_name)
+                    else:
+                        filt_txt = BuildTrainingDataFiles.filter_data(txt)
+                        language_txt += filt_txt
    
-            # Write out a file for this language
+            # Write out a complete text file for this language
             language_file_name = os.path.join(base_output_dir, 'lang-' + sub_dir + '.txt')
-            fh = open(language_file_name, 'w')
-            fh.write(language_txt)
-            fh.close()
+            with open(language_file_name, 'w') as fh:
+                fh.write(language_txt)
 
     @staticmethod
     def self_test():
