@@ -1,3 +1,4 @@
+# source language: python 3.5.1
 import os
 import math
 import pickle
@@ -120,7 +121,7 @@ class LangByWord:
         # Compute the out of vocabulary probability by finding the minimum word probability in all languages
         # and reducing it by a factor. This is used during testing to assign a probability to a word that is not
         # found in the vocabulary (and hence cannot be estimated).
-        self.out_of_vocab_prob = self.find_minimum_word_prob()*0.1
+        self.out_of_vocab_prob = self.find_minimum_word_prob()
 
     def sentence_log_prob(self, sentence: str) -> (str, float):
         """ Find the language which maximizes the sentence probability.
