@@ -16,6 +16,7 @@ The solution to the maximization is shown in the equations below.
 ![alt text](mt1.jpg)
 
 Word probabilities are computed by a ratio of the number of occurances of a word in the language and the total number of words in the language.
+
 ![alt text](word_probs.jpg)
 
 #### *Results*
