@@ -99,9 +99,9 @@ class LangByWord:
                     if len(self.lang_word_count[lang_name].keys()) > max_words_per_lang:
                         break
                 if report_freq > 0 and self.lang_sentence_count[lang_name] % report_freq == 0:
-                    print('language:', lang_name, 
-                        'words processed:', self.lang_total_word_count[lang_name], 
-                        'sentences processed:', self.lang_sentence_count[lang_name])
+                    print('language:', lang_name,
+                          'words processed:', self.lang_total_word_count[lang_name],
+                          'sentences processed:', self.lang_sentence_count[lang_name])
             print('final stats:', lang_name, 'unique words:', len(self.lang_word_count[lang_name].keys()),
                   'sentences:', self.lang_sentence_count[lang_name])
 
@@ -205,7 +205,7 @@ class LangByWord:
             sentence_count += 1
             if report_freq > 0 and sentence_count % report_freq == 0:
                 print(error_count, 'errors in', sentence_count, 'sentences.',
-                    'error percent:', '{0:.4f}'.format(100*error_count/sentence_count))
+                      'error percent:', '{0:.4f}'.format(100*error_count/sentence_count))
         fh.close()
         print('Error count:', error_count, 'sentence count:', sentence_count,
               'percent error rate: ', '{0:.4f}'.format(100*error_count/sentence_count))
