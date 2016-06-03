@@ -109,9 +109,7 @@ class LangByWord:
         # in the language's corpus by the total number of words in the corpus.
         for lang in self.lang_word_count.keys():
             self.lang_word_prob[lang] = {}  # word probabilities for each language
-            sum_counts = 0
-            for word in self.lang_word_count[lang]:
-                sum_counts += self.lang_word_count[lang][word]
+            sum_counts = sum(self.lang_word_count[lang].values())
             for word in self.lang_word_count[lang]:
                 self.lang_word_prob[lang][word] = self.lang_word_count[lang][word] / sum_counts
 
@@ -198,6 +196,7 @@ class LangByWord:
         sentence_count = 0  # total sentences
         for line in fh:
             lang_id, lang_text = line.split('\t', 2)  # split into two parts using the tab
+            # Find the sentence's most probable language 'prob_lang' and its probability 'prob'
             prob_lang, prob = self.sentence_log_prob(lang_text)
             if prob_lang != lang_id:
                 error_count += 1
