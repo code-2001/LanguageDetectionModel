@@ -56,7 +56,7 @@ class BuildTrainingDataFiles:
         # language to be processed.
         for sub_dir in os.listdir(base_input_dir):
             sub_dir_full_name = os.path.join(base_input_dir, sub_dir)  # get the name of the language sub-directory
-            print('Processing directory:',sub_dir_full_name)
+            print('Processing directory:', sub_dir_full_name)
             language_txt = ''
             # Process each file within the sub-directory
             for file_name in os.listdir(sub_dir_full_name):
